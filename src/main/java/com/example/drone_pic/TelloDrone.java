@@ -3,6 +3,9 @@ import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 public class TelloDrone implements Drone {
+    long timeLastCommand;
+    double time_btw_cmd = 1.0;      //Für lange cmds wie Start/Land
+    double rc_time_btw_cmd = 0.5;
     Client client;
     public TelloDrone(Client c){
         client = c;
@@ -26,20 +29,28 @@ public class TelloDrone implements Drone {
     }
 
     @Override
-    public void command(String cmd){
+    public void command(String cmd){        //LONG COMMAND SENDING TIME
         if(null == cmd || 0 == cmd.length())
             return; //"empty command";
         if(!client.isConnected()) {
             return; //"disconnected";
         }
+        long differenz;
+
+        differenz = System.currentTimeMillis() * 1000 - timeLastCommand;    //SPAM-SCHUTZ
+        if (differenz < time_btw_cmd) {
+            try {
+                Thread.sleep(differenz);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+        }                                                                   //SPAM-SCHUTZ ENDE
         final byte[] sendData = cmd.getBytes();
         final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getServer(), client.getPort());
-        try {
-            client.getSocket().send(sendPacket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        client.send(sendPacket);
         System.out.println("Sent command: " + cmd);
+        timeLastCommand = System.currentTimeMillis()*1000;
     }
 
     @Override

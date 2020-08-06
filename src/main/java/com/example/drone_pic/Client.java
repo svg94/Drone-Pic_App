@@ -12,5 +12,5 @@ public interface Client {
     InetAddress getServer();
     void send(DatagramPacket data);
     DatagramSocket getSocket();
-    void sendCommand(String cmd);
+    //void sendCommand(String cmd);
 }

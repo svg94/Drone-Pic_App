@@ -32,13 +32,12 @@ public class UDP_Client implements Client{
     public void connect(){
         socket.connect(server,port);
     }
-    public void sendCommand(String cmd){
+    /*public void sendCommand(String cmd){
         if(null == cmd || 0 == cmd.length())
             return; //"empty command";
         if(!socket.isConnected()) {
             return; //"disconnected";
         }
-        //byte[] receiveData = new byte[1024];
         final byte[] sendData = cmd.getBytes();
         final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, server, port);
         try {
@@ -46,11 +45,8 @@ public class UDP_Client implements Client{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //final DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        //s.receive(receivePacket);
-        //final String ret = new String(receivePacket.getData());
-        System.out.println("Tello " + cmd); //+ ": " + ret);
-    }
+        System.out.println("Tello " + cmd);
+    }*/
     public boolean isConnected(){
         if(socket == null){
             return false;
