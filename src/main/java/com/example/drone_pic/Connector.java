@@ -20,9 +20,7 @@ public class Connector {
     private DatagramSocket s;
 
 
-    final public void connect() throws Exception {
-        this.connect("192.168.10.1", 8889);
-    }
+
 
     final public void connect(final String strIP, final int port) throws Exception {
         this.port = port;
@@ -64,16 +62,8 @@ public class Connector {
         System.out.println("Tello " + strCommand); //+ ": " + ret);
         //return ret;
     }
-    public boolean isConnected()
-    {
-        if(s == null){
-            return false;
-        }
-        return s.isConnected();
-    }
-    public void close(){
-        s.close();
-    }
+
+
 
     public String sendAndReceiveCommand(String command, int length) throws IOException {
         this.sendCommand(command);
