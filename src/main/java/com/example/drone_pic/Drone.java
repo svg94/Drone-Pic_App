@@ -1,12 +1,14 @@
 package com.example.drone_pic;
 
+import java.io.IOException;
+
 public interface Drone {
     void connect();
     void start();
     void land();
 
     boolean isConnected();
-    void command(String cmd);
+    void command(String cmd) throws IOException;
     boolean command(String cmd, int x);
     int getBattery();
     int getSpeed();

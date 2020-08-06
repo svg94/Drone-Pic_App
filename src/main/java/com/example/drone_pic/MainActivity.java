@@ -23,8 +23,11 @@ public class MainActivity extends AppCompatActivity {
     Button start;
     Button land;
     Button pic;
-    Client client = new UDP_Client(8889,"192.168.10.1");
-    Drone tello = new TelloDrone(client);
+
+    Client client;
+    Drone tello;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +36,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        client = new UDP_Client(8889,"192.168.10.1");
+        tello = new TelloDrone(client);
+
+        //client = new UDP_Client(8889,"192.168.10.1");
+        //tello = new TelloDrone(client);
         start = (Button) findViewById(R.id.b_start);
         land = (Button) findViewById(R.id.b_land);
         pic = (Button) findViewById(R.id.b_pic);

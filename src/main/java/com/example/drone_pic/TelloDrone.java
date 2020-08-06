@@ -1,4 +1,5 @@
 package com.example.drone_pic;
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 public class TelloDrone implements Drone {
@@ -15,6 +16,7 @@ public class TelloDrone implements Drone {
         this.command("land");
     }
     public void connect(){
+        client.connect();
         this.command("command");
     }
 
@@ -24,7 +26,7 @@ public class TelloDrone implements Drone {
     }
 
     @Override
-    public void command(String cmd) {
+    public void command(String cmd){
         if(null == cmd || 0 == cmd.length())
             return; //"empty command";
         if(!client.isConnected()) {
@@ -32,7 +34,11 @@ public class TelloDrone implements Drone {
         }
         final byte[] sendData = cmd.getBytes();
         final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getServer(), client.getPort());
-        client.send(sendPacket);
+        try {
+            client.getSocket().send(sendPacket);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println("Sent command: " + cmd);
     }
 
