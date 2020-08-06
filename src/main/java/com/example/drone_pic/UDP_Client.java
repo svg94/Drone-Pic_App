@@ -9,8 +9,8 @@ import java.net.UnknownHostException;
 
 
 public class UDP_Client implements Client{
-    private int port;
-    private String servername;
+    private int port;       //Tello 8889
+    private String servername;  //192.168.10.1
     private InetAddress server;
     private DatagramSocket socket;
 

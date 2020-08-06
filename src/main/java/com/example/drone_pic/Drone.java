@@ -1,6 +1,10 @@
 package com.example.drone_pic;
 
 public interface Drone {
+    void connect();
+    void start();
+    void land();
+
     boolean isConnected();
     void command(String cmd);
     boolean command(String cmd, int x);

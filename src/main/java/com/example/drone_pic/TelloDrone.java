@@ -6,9 +6,21 @@ public class TelloDrone implements Drone {
     public TelloDrone(Client c){
         client = c;
     }
+
+    //LONG CMDs
+    public void start(){
+        this.command("takeoff");
+    }
+    public void land(){
+        this.command("land");
+    }
+    public void connect(){
+        this.command("command");
+    }
+
     @Override
     public boolean isConnected() {
-        return false;
+        return client.isConnected();
     }
 
     @Override

@@ -23,7 +23,8 @@ public class MainActivity extends AppCompatActivity {
     Button start;
     Button land;
     Button pic;
-    Connector c = new Connector();
+    Client client = new UDP_Client(8889,"192.168.10.1");
+    Drone tello = new TelloDrone(client);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                     StrictMode.setThreadPolicy(policy);
                     //your codes here
                     try {
-                        c.connect();
+                        tello.connect();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     StrictMode.setThreadPolicy(policy);
                     //your codes here
                     try {
-                        c.start();
+                        tello.start();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -87,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                     StrictMode.setThreadPolicy(policy);
                     //your codes here
                     try {
-                        c.land();
+                        tello.land();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
