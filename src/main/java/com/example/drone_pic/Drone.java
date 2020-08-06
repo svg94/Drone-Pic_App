@@ -8,15 +8,14 @@ public interface Drone {
     void land();
 
     boolean isConnected();
-    void command(String cmd) throws IOException;
-    boolean command(String cmd, int x);
+    void command(String cmd, double time);
     int getBattery();
     int getSpeed();
     void setSpeed(int speed);
     int getTime();
     boolean backFlip();
-    boolean up(int x);
-    boolean down(int x);
+    void up(int x);
+    void down(int x);
     boolean left(int x);
     boolean right(int x);
     boolean forward(int x);

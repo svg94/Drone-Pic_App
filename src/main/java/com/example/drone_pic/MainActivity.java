@@ -48,19 +48,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"KOMMUNIKATION IST A UND O.",Toast.LENGTH_SHORT).show();
-                int SDK_INT = android.os.Build.VERSION.SDK_INT;
-                if (SDK_INT > 8)
-                {
-                    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
-                            .permitAll().build();
-                    StrictMode.setThreadPolicy(policy);
-                    //your codes here
-                    try {
-                        tello.connect();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
+                tello.connect();
             }
         });
 

@@ -1,4 +1,6 @@
 package com.example.drone_pic;
+import android.os.StrictMode;
+
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
@@ -13,14 +15,24 @@ public class TelloDrone implements Drone {
 
     //LONG CMDs
     public void start(){
-        this.command("takeoff");
+        this.command("takeoff", time_btw_cmd);
     }
     public void land(){
-        this.command("land");
+        this.command("land", time_btw_cmd);
     }
     public void connect(){
-        client.connect();
-        this.command("command");
+        this.command("command", time_btw_cmd);
+    }
+
+    //Short CMDs
+    @Override
+    public void up(int x) {
+        this.command("up 20", rc_time_btw_cmd);
+    }
+
+    @Override
+    public void down(int x) {
+        this.command("down 20", rc_time_btw_cmd);
     }
 
     @Override
@@ -29,34 +41,47 @@ public class TelloDrone implements Drone {
     }
 
     @Override
-    public void command(String cmd){        //LONG COMMAND SENDING TIME
-        if(null == cmd || 0 == cmd.length())
-            return; //"empty command";
-        if(!client.isConnected()) {
-            return; //"disconnected";
-        }
-        long differenz;
-
-        differenz = System.currentTimeMillis() * 1000 - timeLastCommand;    //SPAM-SCHUTZ
-        if (differenz < time_btw_cmd) {
+    public void command(String cmd, double timeBtw){        //LONG COMMAND SENDING TIME
+        int SDK_INT = android.os.Build.VERSION.SDK_INT;
+        if (SDK_INT > 8)
+        {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder()
+                    .permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+            //your codes here
             try {
-                Thread.sleep(differenz);
-            } catch (InterruptedException e) {
+                if(!isConnected()){
+                    client.connect();
+                }
+                if(null == cmd || 0 == cmd.length())
+                    return; //"empty command";
+                if(!client.isConnected()) {
+                    return; //"disconnected";
+                }
+                long differenz;
+
+                differenz = System.currentTimeMillis() * 1000 - timeLastCommand;    //SPAM-SCHUTZ
+                if (differenz < timeBtw) {
+                    try {
+                        Thread.sleep(differenz);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+
+                }                                                                   //SPAM-SCHUTZ ENDE
+                final byte[] sendData = cmd.getBytes();
+                final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getServer(), client.getPort());
+                client.send(sendPacket);
+                System.out.println("Sent command: " + cmd);
+                timeLastCommand = System.currentTimeMillis()*1000;
+            } catch (Exception e) {
                 e.printStackTrace();
             }
+        }
 
-        }                                                                   //SPAM-SCHUTZ ENDE
-        final byte[] sendData = cmd.getBytes();
-        final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getServer(), client.getPort());
-        client.send(sendPacket);
-        System.out.println("Sent command: " + cmd);
-        timeLastCommand = System.currentTimeMillis()*1000;
     }
 
-    @Override
-    public boolean command(String cmd, int x) {
-        return false;
-    }
+
 
     @Override
     public int getBattery() {
@@ -83,15 +108,6 @@ public class TelloDrone implements Drone {
         return false;
     }
 
-    @Override
-    public boolean up(int x) {
-        return false;
-    }
-
-    @Override
-    public boolean down(int x) {
-        return false;
-    }
 
     @Override
     public boolean left(int x) {
