@@ -8,7 +8,7 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 
-public class UDP_Client {
+public class UDP_Client implements Client{
     private int port;
     private String servername;
     private InetAddress server;

@@ -2,14 +2,26 @@ package com.example.drone_pic;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 public class TelloDrone implements Drone {
+    Client client;
+    public TelloDrone(Client c){
+        client = c;
+    }
     @Override
     public boolean isConnected() {
         return false;
     }
 
     @Override
-    public boolean command(String cmd) {
-        return false;
+    public void command(String cmd) {
+        if(null == cmd || 0 == cmd.length())
+            return; //"empty command";
+        if(!client.isConnected()) {
+            return; //"disconnected";
+        }
+        final byte[] sendData = cmd.getBytes();
+        final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getServer(), client.getPort());
+        client.send(sendPacket);
+        System.out.println("Sent command: " + cmd);
     }
 
     @Override
@@ -87,10 +99,7 @@ public class TelloDrone implements Drone {
         return 0;
     }
 
-    @Override
-    public void setPort() {
 
-    }
 
     @Override
     public String getIP() {

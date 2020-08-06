@@ -2,7 +2,7 @@ package com.example.drone_pic;
 
 public interface Drone {
     boolean isConnected();
-    boolean command(String cmd);
+    void command(String cmd);
     boolean command(String cmd, int x);
     int getBattery();
     int getSpeed();
@@ -18,7 +18,6 @@ public interface Drone {
     boolean turnRight(int x);
     boolean turnLeft(int x);
     int getPort();
-    void setPort();
     String getIP();
     //String getAddress();
 }
