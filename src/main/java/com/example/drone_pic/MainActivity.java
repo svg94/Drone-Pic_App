@@ -23,6 +23,10 @@ public class MainActivity extends AppCompatActivity {
     Button start;
     Button land;
     Button pic;
+    Button up;
+    Button down;
+    Button fwd;
+    Button back;
 
     Client client;
     Drone tello;
@@ -44,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
         start = (Button) findViewById(R.id.b_start);
         land = (Button) findViewById(R.id.b_land);
         pic = (Button) findViewById(R.id.b_pic);
+        up = (Button) findViewById(R.id.b_up);
+        down = (Button) findViewById(R.id.b_down);
+        fwd = (Button) findViewById(R.id.b_vor);
+        back = (Button) findViewById(R.id.b_back);
+
         pic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,6 +74,30 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Landung wird (hoffentlich) eingeleitet.",Toast.LENGTH_SHORT).show();
                 tello.land();
+            }
+        });
+        up.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.up(20);
+            }
+        });
+        down.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.down(20);
+            }
+        });
+        fwd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.forward(20);
+            }
+        });
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.back(20);
             }
         });
     }

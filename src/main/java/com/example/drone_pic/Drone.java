@@ -1,7 +1,5 @@
 package com.example.drone_pic;
 
-import java.io.IOException;
-
 public interface Drone {
     void connect();
     void start();
@@ -18,8 +16,8 @@ public interface Drone {
     void down(int x);
     boolean left(int x);
     boolean right(int x);
-    boolean forward(int x);
-    boolean back(int x);
+    void forward(int x);
+    void back(int x);
     boolean turnRight(int x);
     boolean turnLeft(int x);
     int getPort();

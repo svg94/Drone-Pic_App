@@ -1,8 +1,6 @@
 package com.example.drone_pic;
 import android.os.StrictMode;
 
-import java.io.IOException;
-import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 public class TelloDrone implements Drone {
     long timeLastCommand;
@@ -27,13 +25,25 @@ public class TelloDrone implements Drone {
     //Short CMDs
     @Override
     public void up(int x) {
-        this.command("up 20", rc_time_btw_cmd);
+        this.command("up "+x, time_btw_cmd);
     }
 
     @Override
     public void down(int x) {
-        this.command("down 20", rc_time_btw_cmd);
+        this.command("down "+x, rc_time_btw_cmd);
     }
+
+    @Override
+    public void forward(int x) {
+        this.command("forward "+x, rc_time_btw_cmd);
+    }
+
+    @Override
+    public void back(int x) {
+        this.command("forward "+x, rc_time_btw_cmd);
+    }
+
+
 
     @Override
     public boolean isConnected() {
@@ -119,15 +129,7 @@ public class TelloDrone implements Drone {
         return false;
     }
 
-    @Override
-    public boolean forward(int x) {
-        return false;
-    }
 
-    @Override
-    public boolean back(int x) {
-        return false;
-    }
 
     @Override
     public boolean turnRight(int x) {
