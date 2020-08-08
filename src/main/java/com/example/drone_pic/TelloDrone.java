@@ -7,6 +7,7 @@ public class TelloDrone implements Drone {
     double time_btw_cmd = 1.0;      //Für lange cmds wie Start/Land
     double rc_time_btw_cmd = 0.5;
     Client client;
+
     public TelloDrone(Client c){
         client = c;
     }
@@ -22,29 +23,39 @@ public class TelloDrone implements Drone {
         this.command("command", time_btw_cmd);
     }
 
-    //Short CMDs
+    //Short CMDs RC_CONTROL
     @Override
     public void up(int x) {
         this.command("up "+x, time_btw_cmd);
     }
-
     @Override
     public void down(int x) {
         this.command("down "+x, rc_time_btw_cmd);
     }
-
     @Override
     public void forward(int x) {
         this.command("forward "+x, rc_time_btw_cmd);
     }
-
     @Override
-    public void back(int x) {
-        this.command("forward "+x, rc_time_btw_cmd);
+    public void back(int x) { this.command("back "+x, rc_time_btw_cmd); }
+    @Override
+    public void left(int x) {
+        this.command("left "+x, rc_time_btw_cmd);
     }
+    @Override
+    public void right(int x) { this.command("right "+x,rc_time_btw_cmd); }
+    @Override
+    public void turnRight(int x) {
+        this.command("cw "+x, rc_time_btw_cmd);
+    }
+    @Override
+    public void turnLeft(int x) {
+        this.command("ccw "+x, rc_time_btw_cmd);
+    }
+    @Override
+    public void backFlip() { this.command("flip b",rc_time_btw_cmd); }
 
-
-
+    //GET_STATES
     @Override
     public boolean isConnected() {
         return client.isConnected();
@@ -113,33 +124,7 @@ public class TelloDrone implements Drone {
         return 0;
     }
 
-    @Override
-    public boolean backFlip() {
-        return false;
-    }
 
-
-    @Override
-    public boolean left(int x) {
-        return false;
-    }
-
-    @Override
-    public boolean right(int x) {
-        return false;
-    }
-
-
-
-    @Override
-    public boolean turnRight(int x) {
-        return false;
-    }
-
-    @Override
-    public boolean turnLeft(int x) {
-        return false;
-    }
 
     @Override
     public int getPort() {
