@@ -1,7 +1,5 @@
 package com.example.drone_pic;
 
-import android.os.StrictMode;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -10,13 +8,13 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 
 
-public class UDP_Client implements Client{
+public class UDP_ClientSender implements ClientSender {
     private int port;       //Tello 8889
     private String servername;  //192.168.10.1
     private InetAddress server;
     private DatagramSocket socket;
 
-    public UDP_Client(int pPort, String pServername) {
+    public UDP_ClientSender(int pPort, String pServername) {
         this.port = pPort;
         this.servername = pServername;
         try {

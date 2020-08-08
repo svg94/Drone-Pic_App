@@ -6,10 +6,10 @@ public class TelloDrone implements Drone {
     long timeLastCommand;
     double time_btw_cmd = 1.0;      //Für lange cmds wie Start/Land
     double rc_time_btw_cmd = 0.5;
-    Client client;
+    ClientSender clientSender;
 
-    public TelloDrone(Client c){
-        client = c;
+    public TelloDrone(ClientSender c){
+        clientSender = c;
     }
 
     //LONG CMDs
@@ -58,7 +58,7 @@ public class TelloDrone implements Drone {
     //GET_STATES
     @Override
     public boolean isConnected() {
-        return client.isConnected();
+        return clientSender.isConnected();
     }
 
     @Override
@@ -72,11 +72,11 @@ public class TelloDrone implements Drone {
             //your codes here
             try {
                 if(!isConnected()){
-                    client.connect();
+                    clientSender.connect();
                 }
                 if(null == cmd || 0 == cmd.length())
                     return; //"empty command";
-                if(!client.isConnected()) {
+                if(!clientSender.isConnected()) {
                     return; //"disconnected";
                 }
                 long differenz;
@@ -91,8 +91,8 @@ public class TelloDrone implements Drone {
 
                 }                                                                   //SPAM-SCHUTZ ENDE
                 final byte[] sendData = cmd.getBytes();
-                final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, client.getServer(), client.getPort());
-                client.send(sendPacket);
+                final DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, clientSender.getServer(), clientSender.getPort());
+                clientSender.send(sendPacket);
                 System.out.println("Sent command: " + cmd);
                 timeLastCommand = System.currentTimeMillis()*1000;
             } catch (Exception e) {

@@ -2,13 +2,9 @@ package com.example.drone_pic;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.StrictMode;
 import android.view.View;
 
 import android.view.Menu;
@@ -28,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Button fwd;
     Button back;
 
-    Client client;
+    ClientSender clientSender;
     Drone tello;
 
 
@@ -40,8 +36,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        client = new UDP_Client(8889,"192.168.10.1");
-        tello = new TelloDrone(client);
+        clientSender = new UDP_ClientSender(8889,"192.168.10.1");
+        tello = new TelloDrone(clientSender);
 
         //client = new UDP_Client(8889,"192.168.10.1");
         //tello = new TelloDrone(client);
