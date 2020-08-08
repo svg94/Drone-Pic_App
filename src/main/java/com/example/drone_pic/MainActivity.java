@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     Button back;
 
     ClientSender clientSender;
+    UDP_Client_Receiver clientReceiver;
     Drone tello;
 
 
@@ -37,7 +38,11 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         clientSender = new UDP_ClientSender(8889,"192.168.10.1");
-        tello = new TelloDrone(clientSender);
+        clientReceiver = new UDP_Client_Receiver(8890,"0.0.0.0");
+        clientReceiver.setDaemon(true);
+        clientReceiver.start();
+
+        tello = new TelloDrone(clientSender,clientReceiver);
 
         //client = new UDP_Client(8889,"192.168.10.1");
         //tello = new TelloDrone(client);
@@ -75,7 +80,11 @@ public class MainActivity extends AppCompatActivity {
         up.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tello.up(20);
+                //tello.up(20);
+                Toast.makeText(getApplicationContext(),clientReceiver.getStates(),Toast.LENGTH_SHORT).show();
+                System.out.println("/////////////////////////");
+                System.out.println(clientReceiver.getStates());
+                System.out.println("/////////////////////////");
             }
         });
         down.setOnClickListener(new View.OnClickListener() {

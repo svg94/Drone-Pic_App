@@ -7,9 +7,11 @@ public class TelloDrone implements Drone {
     double time_btw_cmd = 1.0;      //Für lange cmds wie Start/Land
     double rc_time_btw_cmd = 0.5;
     ClientSender clientSender;
+    ClientReceiver clientReceiver;
 
-    public TelloDrone(ClientSender c){
+    public TelloDrone(ClientSender c, ClientReceiver r){
         clientSender = c;
+        clientReceiver = r;
     }
 
     //LONG CMDs
