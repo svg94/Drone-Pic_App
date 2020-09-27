@@ -1,5 +1,8 @@
-package com.example.drone_pic;
+package com.example.drone_pic.Drone;
 import android.os.StrictMode;
+
+import com.example.drone_pic.Client.ClientReceiver;
+import com.example.drone_pic.Client.ClientSender;
 
 import java.net.DatagramPacket;
 public class TelloDrone implements Drone {

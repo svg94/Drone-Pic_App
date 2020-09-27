@@ -1,5 +1,7 @@
 package com.example.drone_pic;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,24 +14,24 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.drone_pic.Client.ClientSender;
+import com.example.drone_pic.Client.UDP_ClientSender;
+import com.example.drone_pic.Client.UDP_Client_Receiver;
+import com.example.drone_pic.Drone.Drone;
+import com.example.drone_pic.Drone.TelloDrone;
+
+import java.util.LinkedList;
 
 
 public class MainActivity extends AppCompatActivity {
-
-    Button start;
-    Button land;
-    Button pic;
-    Button up;
-    Button down;
-    Button fwd;
-    Button back;
-
+    LinkedList<Button> buttons = new LinkedList<>();
     ClientSender clientSender;
     UDP_Client_Receiver clientReceiver;
     Drone tello;
+    final int DRONESPEED = 30;
 
 
-
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,15 +48,17 @@ public class MainActivity extends AppCompatActivity {
 
         //client = new UDP_Client(8889,"192.168.10.1");
         //tello = new TelloDrone(client);
-        start = (Button) findViewById(R.id.b_start);
-        land = (Button) findViewById(R.id.b_land);
-        pic = (Button) findViewById(R.id.b_pic);
-        up = (Button) findViewById(R.id.b_up);
-        down = (Button) findViewById(R.id.b_down);
-        fwd = (Button) findViewById(R.id.b_vor);
-        back = (Button) findViewById(R.id.b_back);
+        int[] button_ids = {R.id.b_start, R.id.b_land, R.id.b_pic,
+                            R.id.b_up, R.id.b_down, R.id.b_vor,
+                            R.id.b_back, R.id.b_left, R.id.b_right,
+                            R.id.b_tLeft, R.id.b_tRight};
 
-        pic.setOnClickListener(new View.OnClickListener() {
+        for(int i = 0; i< button_ids.length;i++){
+            buttons.add((Button) findViewById(button_ids[i]));
+        }
+
+
+        buttons.get(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"KOMMUNIKATION IST A UND O.",Toast.LENGTH_SHORT).show();
@@ -62,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        start.setOnClickListener(new View.OnClickListener() {
+        buttons.get(0).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Sende Drohne (hoffentlich) ins Jenseits.",Toast.LENGTH_SHORT).show();
@@ -70,41 +74,61 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        land.setOnClickListener(new View.OnClickListener() {
+        buttons.get(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"Landung wird (hoffentlich) eingeleitet.",Toast.LENGTH_SHORT).show();
                 tello.land();
             }
         });
-        up.setOnClickListener(new View.OnClickListener() {
+        buttons.get(3).setOnTouchListener(new RepeatListener(400, 100, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //tello.up(20);
-                Toast.makeText(getApplicationContext(),clientReceiver.getStates(),Toast.LENGTH_SHORT).show();
-                System.out.println("/////////////////////////");
-                System.out.println(clientReceiver.getStates());
-                System.out.println("/////////////////////////");
+                tello.up(DRONESPEED);
             }
-        });
-        down.setOnClickListener(new View.OnClickListener() {
+        }));
+        buttons.get(4).setOnTouchListener(new RepeatListener(400,100,new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tello.down(20);
+                tello.down(DRONESPEED);
             }
-        });
-        fwd.setOnClickListener(new View.OnClickListener() {
+        }));
+        buttons.get(5).setOnTouchListener(new RepeatListener(400,100,new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tello.forward(20);
+                tello.forward(DRONESPEED);
             }
-        });
-        back.setOnClickListener(new View.OnClickListener() {
+        }));
+        buttons.get(6).setOnTouchListener(new RepeatListener(400,100,new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                tello.back(20);
+                tello.back(DRONESPEED);
             }
-        });
+        }));
+        buttons.get(7).setOnTouchListener(new RepeatListener(400,100,new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.left(DRONESPEED);
+            }
+        }));
+        buttons.get(8).setOnTouchListener(new RepeatListener(400,100,new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.right(DRONESPEED);
+            }
+        }));
+        buttons.get(9).setOnTouchListener(new RepeatListener(400,100,new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.turnLeft(DRONESPEED);
+            }
+        }));
+        buttons.get(10).setOnTouchListener(new RepeatListener(400,100,new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tello.turnRight(DRONESPEED);
+            }
+        }));
     }
 
     @Override

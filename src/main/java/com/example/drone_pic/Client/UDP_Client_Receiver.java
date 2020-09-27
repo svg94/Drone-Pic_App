@@ -1,6 +1,6 @@
-package com.example.drone_pic;
+package com.example.drone_pic.Client;
 
-import android.widget.Toast;
+import com.example.drone_pic.Client.ClientReceiver;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

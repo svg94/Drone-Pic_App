@@ -1,8 +1,6 @@
-package com.example.drone_pic;
+package com.example.drone_pic.Client;
 
 import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 public interface ClientSender extends Client {
 

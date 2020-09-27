@@ -1,4 +1,4 @@
-package com.example.drone_pic;
+package com.example.drone_pic.Client;
 
 public interface ClientReceiver extends Client, Runnable{
     String getStates();

@@ -1,4 +1,6 @@
-package com.example.drone_pic;
+package com.example.drone_pic.Client;
+
+import com.example.drone_pic.Client.ClientSender;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

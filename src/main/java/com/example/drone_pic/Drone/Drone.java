@@ -1,4 +1,4 @@
-package com.example.drone_pic;
+package com.example.drone_pic.Drone;
 
 public interface Drone {
     void connect();
